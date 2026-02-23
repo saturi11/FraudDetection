@@ -1,9 +1,12 @@
 using FraudDetection.Infrastructure.Persistence;
+using FraudDetection.Worker.Handlers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddHostedService<OutboxProcessor>();
+
+builder.Services.AddScoped<CustomerCreatedHandler>();
 
 builder.Services.AddDbContext<FraudDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

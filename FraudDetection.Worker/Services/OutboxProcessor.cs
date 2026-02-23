@@ -1,5 +1,7 @@
 ﻿using FraudDetection.Infrastructure.Persistence;
 using FraudDetection.Infrastructure.Persistence.Outbox;
+using FraudDetection.Modules.Customers.Domain.Events;
+using FraudDetection.Worker.Handlers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,9 +35,18 @@ public class OutboxProcessor : BackgroundService
             {
                 try
                 {
-                    Console.WriteLine($"Processando evento: {outboxEvent.EventType}");
+                    var type = Type.GetType(outboxEvent.EventType);
 
-                    // Aqui futuramente vamos desserializar dinamicamente
+                    if (type == typeof(CustomerCreatedDomainEvent))
+                    {
+                        var domainEvent = JsonSerializer.Deserialize<CustomerCreatedDomainEvent>(
+                            outboxEvent.Payload);
+
+                        var handler = scope.ServiceProvider.GetRequiredService<CustomerCreatedHandler>();
+
+                        await handler.Handle(domainEvent!, stoppingToken);
+                    }
+
                     outboxEvent.MarkAsProcessed();
                 }
                 catch
