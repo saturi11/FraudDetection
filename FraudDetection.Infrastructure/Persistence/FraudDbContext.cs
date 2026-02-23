@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using FraudDetection.Modules.Customers.Domain;
 using FraudDetection.BuildingBlocks.Domain;
-using FraudDetection.API.Infrastructure.Persistence.Outbox;
+using FraudDetection.Infrastructure.Persistence.Outbox;
 
-namespace FraudDetection.API.Infrastructure.Persistence;
+namespace FraudDetection.Infrastructure.Persistence;
 
 public class FraudDbContext : DbContext
 {
@@ -24,15 +24,17 @@ public class FraudDbContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
+
     public override async Task<int> SaveChangesAsync(
     CancellationToken cancellationToken = default)
     {
         var domainEvents = ChangeTracker
-            .Entries<AggregateRoot>()
-            .Select(x => x.Entity)
+            .Entries()
+            .Where(e => e.Entity is AggregateRoot)
+            .Select(e => (AggregateRoot)e.Entity)
             .SelectMany(x =>
             {
-                var events = x.DomainEvents;
+                var events = x.DomainEvents.ToList(); 
                 x.ClearDomainEvents();
                 return events;
             })
@@ -42,7 +44,10 @@ public class FraudDbContext : DbContext
         {
             var outboxEvent = new OutboxEvent(
                 domainEvent.GetType().FullName!,
-                JsonSerializer.Serialize(domainEvent),
+                JsonSerializer.Serialize(
+                    domainEvent,
+                    domainEvent.GetType()
+                ),
                 domainEvent.OccurredOn);
 
             await OutboxEvents.AddAsync(outboxEvent, cancellationToken);

@@ -1,9 +1,9 @@
-using FraudDetection.API.Infrastructure.Persistence;
+using FraudDetection.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using FraudDetection.Modules.Customers.Application.Commands.CreateCustomer;
 using FraudDetection.Modules.Customers.Domain.Repositories;
-using FraudDetection.API.Infrastructure.Persistence.Repositories;
+using FraudDetection.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,7 +3,7 @@ using FraudDetection.Modules.Customers.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FraudDetection.API.Infrastructure.Persistence.Configurations;
+namespace FraudDetection.Infrastructure.Persistence.Configurations;
 
 public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {

@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\FraudDetection.BuildingBlocks\FraudDetection.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\FraudDetection.Modules.Customers\FraudDetection.Modules.Customers.csproj" />
+    <ProjectReference Include="..\FraudDetection.Modules.Cards\FraudDetection.Modules.Cards.csproj" />
+    <ProjectReference Include="..\FraudDetection.Modules.Transactions\FraudDetection.Modules.Transactions.csproj" />
+    <ProjectReference Include="..\FraudDetection.Modules.RiskManagement\FraudDetection.Modules.RiskManagement.csproj" />
+    <ProjectReference Include="..\FraudDetection.Modules.Analytics\FraudDetection.Modules.Analytics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.5" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

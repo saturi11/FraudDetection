@@ -2,7 +2,7 @@ using FraudDetection.Modules.Customers.Domain;
 using FraudDetection.Modules.Customers.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace FraudDetection.API.Infrastructure.Persistence.Repositories;
+namespace FraudDetection.Infrastructure.Persistence.Repositories;
 
 public class CustomerRepository : ICustomerRepository
 {

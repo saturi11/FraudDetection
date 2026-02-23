@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-FraudDetection.Worker-12939c36-92f3-422c-9c70-0ee6dab4c2b3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
   </ItemGroup>
 
@@ -16,5 +17,6 @@
     <ProjectReference Include="..\FraudDetection.Modules.Transactions\FraudDetection.Modules.Transactions.csproj" />
     <ProjectReference Include="..\FraudDetection.Modules.RiskManagement\FraudDetection.Modules.RiskManagement.csproj" />
     <ProjectReference Include="..\FraudDetection.Modules.Customers\FraudDetection.Modules.Customers.csproj" />
+    <ProjectReference Include="..\FraudDetection.API\FraudDetection.API.csproj" />
   </ItemGroup>
 </Project>

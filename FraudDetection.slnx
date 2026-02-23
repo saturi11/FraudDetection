@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="FraudDetection.API/FraudDetection.API.csproj" />
   <Project Path="FraudDetection.BuildingBlocks/FraudDetection.BuildingBlocks.csproj" />
+  <Project Path="FraudDetection.Infrastructure/FraudDetection.Infrastructure.csproj" />
   <Project Path="FraudDetection.Modules.Analytics/FraudDetection.Modules.Analytics.csproj" />
   <Project Path="FraudDetection.Modules.Cards/FraudDetection.Modules.Cards.csproj" />
   <Project Path="FraudDetection.Modules.Customers/FraudDetection.Modules.Customers.csproj" />

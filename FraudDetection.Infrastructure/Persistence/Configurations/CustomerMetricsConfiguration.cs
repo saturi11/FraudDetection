@@ -2,7 +2,7 @@ using FraudDetection.Modules.Customers.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FraudDetection.API.Infrastructure.Persistence.Configurations;
+namespace FraudDetection.Infrastructure.Persistence.Configurations;
 
 public class CustomerMetricsConfiguration : IEntityTypeConfiguration<CustomerMetrics>
 {

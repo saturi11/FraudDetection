@@ -1,6 +1,6 @@
 using FraudDetection.BuildingBlocks.Domain;
 
-namespace FraudDetection.API.Infrastructure.Persistence.Outbox;
+namespace FraudDetection.Infrastructure.Persistence.Outbox;
 
 public class OutboxEvent
 {
@@ -29,7 +29,7 @@ public class OutboxEvent
         ProcessedOn = DateTime.UtcNow;
     }
 
-    public void IncrementRetryCount()
+    public void IncrementRetry()
     {
         RetryCount++;
     }
