@@ -1,99 +1,101 @@
 # 🚀 Fraud Detection System  
 ### DDD • Clean Architecture • Modular Monolith • Outbox Pattern • Docker
 
-Sistema backend profissional para simulação de um mecanismo de detecção de fraudes financeiras, desenvolvido em .NET com arquitetura modular baseada em **Domain-Driven Design (DDD)**, **Clean Architecture** e **Outbox Pattern**.
+A professional backend system designed to simulate a financial fraud detection engine, built with .NET using a modular architecture based on **Domain-Driven Design (DDD)**, **Clean Architecture**, and the **Outbox Pattern**.
 
-Projeto construído com foco em engenharia de software avançada, modelagem rica de domínio e arquitetura preparada para alto volume.
-
----
-
-# 🧠 Objetivo
-
-Construir a base arquitetural de um sistema antifraude capaz de:
-
-- Processar transações em alto volume
-- Trabalhar com consistência eventual
-- Persistir eventos de domínio de forma confiável
-- Suportar processamento assíncrono via Worker
-- Ser executado de forma containerizada
-- Servir como case técnico de backend avançado
+This project was developed with a strong focus on advanced software engineering, rich domain modeling, and a scalable architecture ready for high-throughput scenarios.
 
 ---
 
-# 🏗 Arquitetura
+# 🧠 Purpose
 
-Arquitetura modular vertical (feature-based):
+Build the architectural foundation of an antifraud system capable of:
+
+- Processing high-volume transactions  
+- Supporting eventual consistency  
+- Persisting domain events reliably  
+- Enabling asynchronous processing via Worker  
+- Running in a fully containerized environment  
+- Serving as a high-level backend technical case study  
+
+---
+
+# 🏗 Architecture
+
+Vertical modular architecture (feature-based):
 
 FraudDetection  
-│
+│  
 ├── FraudDetection.API  
 ├── FraudDetection.Worker  
 ├── FraudDetection.BuildingBlocks  
-│
+│  
 └── Modules  
-├── Customers  
-├── Cards  
-├── Transactions  
-├── RiskManagement  
-└── Analytics  
+    ├── Customers  
+    ├── Cards  
+    ├── Transactions  
+    ├── RiskManagement  
+    └── Analytics  
 
-### Princípios aplicados
+### Applied Principles
 
-- Domain-Driven Design (DDD)
-- Aggregate Roots
-- Value Objects
-- Domain Events
-- Repository Pattern
-- Outbox Pattern
-- Eventual Consistency
-- Clean Architecture
+- Domain-Driven Design (DDD)  
+- Aggregate Roots  
+- Value Objects  
+- Domain Events  
+- Repository Pattern  
+- Outbox Pattern  
+- Eventual Consistency  
+- Clean Architecture  
 
 ---
 
 # 📦 BuildingBlocks
 
-Base compartilhada contendo:
+Shared foundation containing:
 
-- `Entity`
-- `AggregateRoot`
-- `ValueObject`
-- `DomainEvent`
-- `Result<T>`
+- `Entity`  
+- `AggregateRoot`  
+- `ValueObject`  
+- `DomainEvent`  
+- `Result<T>`  
 
-Permite modelagem rica sem acoplamento à infraestrutura.
+Enables rich domain modeling without coupling to infrastructure.
 
 ---
 
-# 👤 Módulo Customers (Implementado)
+# 👤 Customers Module (Implemented)
 
 ## Aggregate Roots
 
 ### Customer
 
-Responsável por:
-- Identidade do cliente
-- Email (ValueObject)
-- País (ValueObject)
-- Status (bloqueado / ativo)
-- Emissão de DomainEvent ao ser criado
+Responsible for:
+
+- Customer identity  
+- Email (ValueObject)  
+- Country (ValueObject)  
+- Status (blocked / active)  
+- Emitting a DomainEvent upon creation  
 
 ### CustomerMetrics
 
-Responsável por:
-- Métricas agregadas incrementais
-- Total de transações
-- Média de valor
-- Total de rejeições
-- Concurrency control
+Responsible for:
+
+- Incremental aggregated metrics  
+- Total transactions  
+- Average transaction value  
+- Total rejections  
+- Concurrency control  
 
 ---
 
 ## 🔹 Value Objects
 
-- `Email`
-- `Country`
+- `Email`  
+- `Country`  
 
-Imutáveis e com validação encapsulada.
+Immutable and with encapsulated validation.
 
 ---
 
@@ -101,27 +103,27 @@ Imutáveis e com validação encapsulada.
 
 `CustomerCreatedDomainEvent`
 
-Emitido automaticamente pelo Aggregate quando um cliente é criado.
+Automatically emitted by the Aggregate when a customer is created.
 
 ---
 
-# 🔁 Outbox Pattern (Implementado)
+# 🔁 Outbox Pattern (Implemented)
 
-Todos os DomainEvents são interceptados no `SaveChangesAsync` do `FraudDbContext`.
+All DomainEvents are intercepted in the `SaveChangesAsync` method of `FraudDbContext`.
 
-Fluxo:
+Flow:
 
-1. Aggregate gera DomainEvent  
-2. DbContext intercepta eventos  
-3. Evento é serializado em JSON  
-4. Evento é persistido na tabela `outbox_events`  
-5. Evento poderá ser processado pelo Worker  
+1. Aggregate generates a DomainEvent  
+2. DbContext intercepts events  
+3. Event is serialized into JSON  
+4. Event is persisted in the `outbox_events` table  
+5. Event can be processed later by the Worker  
 
-Tabela criada:
+Created table:
 
 - `outbox_events`
 
-Campos:
+Fields:
 
 - Id  
 - EventType  
@@ -130,133 +132,143 @@ Campos:
 - ProcessedOn  
 - RetryCount  
 
-Benefícios:
+Benefits:
 
-- Desacoplamento entre domínio e processamento
-- Persistência confiável de eventos
-- Base para processamento assíncrono
-- Consistência eventual realista
+- Decoupling between domain and processing  
+- Reliable event persistence  
+- Foundation for asynchronous processing  
+- Realistic eventual consistency  
 
 ---
 
-# 🌐 API REST
+# 🌐 REST API
 
-Endpoint implementado:
+Implemented endpoint:
 
 `POST /api/customers`
 
-Exemplo:
+Example:
 
+```json
 {
   "name": "Gabriel",
   "email": "gabriel@email.com",
   "country": "BR"
 }
+```
 
-Retorno:
+Response:
 
 `201 Created`
 
-Com o `Guid` do cliente criado.
+Returns the `Guid` of the created customer.
 
 ---
 
-# 🐳 Infraestrutura (Docker)
+# 🐳 Infrastructure (Docker)
 
-Ambiente totalmente containerizado.
+Fully containerized environment.
 
-Serviços:
+Services:
 
-- PostgreSQL 16
-- Redis 7
-- Seq (logs estruturados)
+- PostgreSQL 16  
+- Redis 7  
+- Seq (structured logging)  
 
-Subir containers:
+Start containers:
 
+```bash
 docker compose up -d
+```
 
 ---
 
-# 🗄 Banco de Dados
+# 🗄 Database
 
-Aplicar migrations:
+Apply migrations:
 
+```bash
 dotnet ef database update -p FraudDetection.API -s FraudDetection.API
+```
 
-Tabelas criadas:
+Created tables:
 
-- customers
-- customer_metrics
-- outbox_events
-- __EFMigrationsHistory
+- customers  
+- customer_metrics  
+- outbox_events  
+- __EFMigrationsHistory  
 
 ---
 
-# ▶️ Executar Projeto
+# ▶️ Run the Project
 
-Executar API:
+Run API:
 
+```bash
 dotnet run --project FraudDetection.API
+```
 
-Swagger disponível em:
+Swagger available at:
 
+```
 https://localhost:{PORT}/swagger
+```
 
 ---
 
-# 🧰 Stack Tecnológica
+# 🧰 Tech Stack
 
-- .NET
-- Entity Framework Core
-- PostgreSQL
-- Redis
-- MediatR
-- Docker
-- Swagger
-- Clean Architecture
-- Domain-Driven Design
-- Outbox Pattern
-
----
-
-# 📊 Status Atual
-
-✔ Arquitetura modular estruturada  
-✔ BuildingBlocks implementado  
-✔ Customers aggregate completo  
-✔ Value Objects implementados  
-✔ Repository Pattern aplicado  
-✔ Migration aplicada  
-✔ Endpoint funcional  
-✔ Outbox Pattern implementado  
-✔ Persistência de DomainEvents funcionando  
-✔ Ambiente Docker configurado  
+- .NET  
+- Entity Framework Core  
+- PostgreSQL  
+- Redis  
+- MediatR  
+- Docker  
+- Swagger  
+- Clean Architecture  
+- Domain-Driven Design  
+- Outbox Pattern  
 
 ---
 
-# 🚧 Próximos Passos
+# 📊 Current Status
 
-- Implementar Worker para consumo do Outbox
-- Criar CustomerMetrics automaticamente via evento
-- Implementar módulo Transactions
-- Implementar Rule Engine dinâmica
-- Implementar métricas comportamentais incrementais
-- Simular alto volume de transações
-- Criar endpoints analíticos
-- Implementar cache Redis estratégico
-- Adicionar testes unitários e de integração
+✔ Modular architecture structured  
+✔ BuildingBlocks implemented  
+✔ Customers aggregate fully implemented  
+✔ Value Objects implemented  
+✔ Repository Pattern applied  
+✔ Migration applied  
+✔ Functional endpoint  
+✔ Outbox Pattern implemented  
+✔ DomainEvents persistence working  
+✔ Docker environment configured  
 
 ---
 
-# 🎯 Propósito
+# 🚧 Next Steps
 
-Projeto desenvolvido como portfólio técnico focado em:
+- Implement Worker for Outbox consumption  
+- Automatically create CustomerMetrics via events  
+- Implement Transactions module  
+- Implement dynamic Rule Engine  
+- Implement incremental behavioral metrics  
+- Simulate high transaction volume  
+- Create analytical endpoints  
+- Implement strategic Redis caching  
+- Add unit and integration tests  
 
-- Engenharia de software avançada
-- Arquitetura limpa e modular
-- Modelagem rica de domínio
-- Integração assíncrona confiável
-- Backend escalável e preparado para evolução
+---
 
-Status: Em desenvolvimento ativo  
-Foco: Backend de alto nível + Arquitetura distribuída
+# 🎯 Purpose
+
+This project was developed as a technical portfolio focused on:
+
+- Advanced software engineering  
+- Clean and modular architecture  
+- Rich domain modeling  
+- Reliable asynchronous integration  
+- Scalable backend ready for evolution  
+
+Status: Actively under development  
+Focus: High-level backend + distributed architecture  
